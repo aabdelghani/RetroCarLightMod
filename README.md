@@ -25,7 +25,7 @@ This section of the codebase is designed to manage the ignition system of a vehi
 
 ## Function Descriptions
 
-### `checkIgnition(int ignition, int ignitionRelay)`
+## Function: `checkIgnition(int ignition, int ignitionRelay)`
 - **Parameters**:
   - `ignition`: Index/identifier for the input pin associated with the ignition.
   - `ignitionRelay`: Index/identifier for the relay controlling the ignition.
@@ -38,7 +38,6 @@ This section of the codebase is designed to manage the ignition system of a vehi
   - `TubeDisplay4Bit()`: Likely pushes display data to the hardware, mechanism depends on specific hardware setup.
 
 This function integrates hardware control with visual feedback, crucial for systems requiring operator awareness of the ignition state.
-
 
 ## Function: `checkHighBeam(int highBeam, int highBeamRelay)`
 
@@ -65,3 +64,71 @@ This function is responsible for controlling the high beam lights of a vehicle b
 
 This method ensures that the high beam lights are managed automatically based on the driver’s input and the vehicle’s operational status, enhancing both safety and convenience.
 
+## Function: `checkBrakeLight(int brakeLight, int brakeLightRelay)`
+
+This function controls the brake light based on the input from a specific pin.
+
+- **Parameters**:
+  - `brakeLight`: The index for the input pin associated with the brake light.
+  - `brakeLightRelay`: The index for the relay controlling the brake light.
+- **Functionality**:
+  - If the brake light input is high (`IO_HIGH`), the brake light is turned on, and the display shows a specific pattern.
+  - If the brake light input is low (`IO_LOW`), the brake light is turned off.
+
+## Function: `checkMarkerLight(int markerLight, int markerLightRelay)`
+
+Controls the marker lights of the vehicle based on the digital input received.
+
+- **Parameters**:
+  - `markerLight`: The index for the input pin associated with marker lights.
+  - `markerLightRelay`: The index for the relay controlling the marker lights.
+- **Functionality**:
+  - If the marker light input is high, the marker lights are turned on, along with a specific display pattern.
+  - If the input is low, the marker lights are turned off.
+
+## Function: `checkHeadLight(int headLight, int headLightRelay)`
+
+Manages the headlight operation based on ignition status and input state.
+
+- **Parameters**:
+  - `headLight`: The index for the input pin associated with the headlights.
+  - `headLightRelay`: The index for the relay controlling the headlights.
+- **Functionality**:
+  - If the ignition is on and the headlight input is high, the headlights are turned on if the `markerFlag` is set, accompanied by a specific display pattern.
+  - If the headlight input is low or if the ignition is off, the headlights are turned off.
+
+In each function, `TubeDisplay4Bit()` is called to update the display, providing visual feedback on the light's status. This integration between the vehicle's lighting system and the display enhances user interaction and system responsiveness.
+
+## Function: `checkBlinkers(int rightBlinker, int leftBlinker, int relayOffset, unsigned long currentTime)`
+
+This function manages the vehicle's blinker lights, ensuring that only the appropriate blinker is active at any given time based on the input states.
+
+- **Parameters**:
+  - `rightBlinker`: The index for the input pin associated with the right blinker.
+  - `leftBlinker`: The index for the input pin associated with the left blinker.
+  - `relayOffset`: The base index for the relays controlling the blinkers.
+  - `currentTime`: Current time in milliseconds, used to manage blinking timing.
+- **Functionality**:
+  - Checks the state of both blinkers. If both are high, it resets both blinkers to prevent simultaneous activation.
+  - If only one blinker is active, it displays a custom character for that blinker and manages its state through the `checkSingleButton` function.
+
+## Function: `checkSingleButton(int blinker, int relay, unsigned long currentTime)`
+
+Controls the blinking of a single blinker relay based on a time interval.
+
+- **Parameters**:
+  - `blinker`: The input pin index for the blinker.
+  - `relay`: The relay index controlling the blinker.
+  - `currentTime`: Current time in milliseconds, used to manage blinking timing.
+- **Functionality**:
+  - Toggles the blinker relay on and off based on the `blinkDuration` and the `currentTime`, creating a blinking effect.
+
+## Function: `setup()`
+Initializes the input/output pins for the system.
+
+## Function: `loop()`
+Main execution loop that continuously checks and updates the state of all inputs and controls the overall operation of the system.
+
+- Reads all inputs and checks the state of buttons or switches.
+- Manages the blinking of an LED based on the state changes detected and the time elapsed.
+- Calls various functions to update the states of lights and other systems based on the input readings.
