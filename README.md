@@ -1,9 +1,53 @@
-
 # Vehicle Lighting and Ignition Control System
 
-## Overview
-This section of the codebase is designed to manage the ignition system of a vehicle using digital inputs and outputs, and relays. It includes functionalities for monitoring and controlling the ignition state, and for updating display elements to reflect these states.
+This repository contains the source code for a vehicle lighting and ignition control system, designed to manage the lighting and ignition functions of a vehicle through a microcontroller-based system using various sensors and relays.
 
+### Usage
+To use this system, ensure all hardware connections are setup according to the pin definitions in `defsAndInputs.h`. Compile and upload the code to your microcontroller. The system will handle the vehicle's lighting and ignition based on real-time inputs from the vehicle's sensors and switches.
+
+## Hardware Setup
+- Microcontroller board (e.g., Arduino, ESP32)
+- Relays for light and ignition control
+- Inputs from vehicle's sensor systems for headlights, blinkers, etc.
+- Display for system status indication
+
+## Features
+- Control of headlight, high beam, brake light, and marker light based on sensor inputs.
+- Ignition control with security features.
+- Blinker system management with individual control for left and right blinkers.
+- Debouncing for reliable input handling.
+- Visual feedback through a display system for current system status.
+
+## Code Overview
+### Included Files
+- **lcdAndRelays.h**: Definitions for LCD display and relay control functions.
+- **defsAndInputs.h**: Definitions for input and output pin configurations and constants.
+
+### Constants
+- `RIGHT_BLINKER`, `LEFT_BLINKER`, `HEADLIGHT`, `HIGHBEAM`, `MARKER_LIGHT`, `BRAKE_LIGHT`, `HAZARD_PBTN`: Input pin indices.
+- `HEADLIGHT_RELAY`, `HIGHBEAM_RELAY`, `MARKER_LIGHT_RELAY`, `BRAKE_LIGHT_RELAY`: Relay indices for controlling corresponding lights.
+- `IGNITION`, `IGNITION_RELAY`: Indices for ignition control.
+
+### Global Variables
+- `beamState`, `bState`: State variables for various control functions.
+- `blinkDuration`: Time duration for blinker on/off state.
+- `previousMillis`, `lastDebounceTime`, `time`: Timing variables to manage events and debouncing.
+- `markerFlag`, `hazardActive`, `IgnitionIsOn`: Status flags for system states.
+
+### Functions
+#### Setup and Loop
+- `setup()`: Initializes the I/O settings.
+- `loop()`: Main program loop which checks inputs and controls outputs based on system logic.
+
+#### Control Functions
+- `checkIgnition()`: Manages ignition based on input.
+- `checkHighBeam()`: Controls high beams with logic based on headlight and ignition status.
+- `checkBrakeLight()`: Manages brake light based on brake sensor.
+- `checkMarkerLight()`: Controls marker lights.
+- `checkHeadLight()`: Manages headlight based on ignition and other light statuses.
+- `checkBlinkers()`: Controls blinker lights and ensures they are not active simultaneously.
+- `checkSingleButton()`: Auxiliary function to manage individual blinker timing.
+- 
 ## Variable Definitions
 - `unsigned int beamState`: Represents the state of the vehicle's beam lights. This variable might be used to store different beam modes.
 - `unsigned int bState`: Manages blink sequences or states, though its usage is not detailed in this snippet.
@@ -132,3 +176,16 @@ Main execution loop that continuously checks and updates the state of all inputs
 - Reads all inputs and checks the state of buttons or switches.
 - Manages the blinking of an LED based on the state changes detected and the time elapsed.
 - Calls various functions to update the states of lights and other systems based on the input readings.
+
+## Contribution
+Contributions are welcome. Please fork the repository and submit pull requests with your improvements.
+
+## License
+This project is licensed under the MIT License - see the LICENSE.md file for details.
+
+## Authors
+- Ayman Baz
+- Ahmed Abdelghany 
+
+## Acknowledgments
+- Thanks to everyone who has contributed to this project.
